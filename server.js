@@ -7,7 +7,7 @@ const app = express();
 connectDB();
 
 //Init middleware
-app.use(express.json({ extended : false}))
+app.use(express.json({ extended : false}))  // this should allow us to use req.body  , mohema
 
 app.get('/' , (req, res) => res.send('API Running'));
 
