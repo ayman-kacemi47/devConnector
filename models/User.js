@@ -23,4 +23,4 @@ const UserSchema = new mongoose.Schema({
     }
 });
 
-module.exports = User = mongoose.model('user', UserSchema);
+module.exports = User = mongoose.model('user', UserSchema);  // the name of collection is based on this 'user'  so pluriel 'users'
