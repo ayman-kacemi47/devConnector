@@ -201,4 +201,90 @@ router.put(
   }
 );
 
+// @router delete /api/profile/experience/:exp_id
+// @desc delete a experience from profile experiences
+// @access private
+router.delete('/experience/:exp_id', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    //Get remove index .  indexOf() is a method for arrays. return the index of a value in a array
+    const removeIndex = profile.experience
+      .map((item) => item.id)
+      .indexOf(req.params.exp_id); //profile avec p et non P : parceque on veut boucler sur les exeperiences d'un utilisateur specifique.
+
+    //bug if index = -1 it will delete the last element , we don't want that
+    if (removeIndex == -1)
+      return res.status(400).send('Element to delete not found');
+    profile.experience.splice(removeIndex, 1); // array.splice(start, deleteCount, item1, item2, ...) , si on met item1 , ... il v's ajouter les elements apartir d'index start et supprime si delectcount > 0
+    await profile.save();
+    res.json(profile);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// @router PUT /api/profile/education
+// @DESC add a education
+// @acess Private
+router.put(
+  '/education',
+  [
+    auth,
+    [
+      check('school', 'School is required').not().isEmpty(),
+      check('degree', 'Degree is required').not().isEmpty(),
+      check('fieldofstudy', 'Field of study is required').not().isEmpty(),
+      check('from', 'From data is required').not().isEmpty(),
+    ],
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() });
+    const { school, degree, fieldofstudy, from, to, current, description } =
+      req.body;
+
+    const myEdu = {
+      school,
+      degree,
+      fieldofstudy,
+      from,
+      to,
+      current,
+      description,
+    };
+    try {
+      const profile = await Profile.findOne({ user: req.user.id });
+      profile.education.unshift(myEdu);
+      await profile.save();
+      res.json(profile);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send('Server error');
+    }
+  }
+);
+
+// @router api/profile/education/:edu_id
+// @desc delete a education based on params id
+// @access private
+router.delete('/education/:edu_id', auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    const removeIndex = profile.education
+      .map((item) => item.id)
+      .indexOf(req.params.edu_id);
+    //bug if index = -1 it will delete the last element , we don't want that
+    if (removeIndex == -1)
+      return res.status(400).send('Element to delete not found');
+    profile.education.splice(removeIndex, 1);
+    await profile.save();
+    res.json(profile);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 module.exports = router;
