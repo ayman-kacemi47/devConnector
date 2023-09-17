@@ -30,6 +30,7 @@ const PostSchema = new mongoose.Schema({
         ref: 'users',
       },
       name: {
+        //of user & not comment , so even if user deleted we could keep comment with username & avatar
         type: String,
       },
       text: {

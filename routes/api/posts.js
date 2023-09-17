@@ -22,7 +22,7 @@ router.post(
       const newPost = new Post({
         user: user.id, // he used req.user.id , but it should be req.id from token or user.id that we fetched
         text: req.body.text,
-        name: user.name,
+        name: user.name, //  !! req.user has only the id , so we can extract name directly
         avatar: user.avatar,
         date: req.body.date, //not necessery
       });
@@ -140,4 +140,69 @@ router.put('/unlike/:id', auth, async (req, res) => {
   }
 });
 
+// @ROUTE POST api/posts/comment/:id
+// @DESC  add a comment
+// @Access private
+
+router.post(
+  '/comment/:id',
+  [auth, [check('text', 'Text is required').not().isEmpty()]],
+  async (req, res) => {
+    const error = validationResult(req);
+    if (!error.isEmpty()) return res.status(400).json({ error: error.array() });
+    try {
+      const user = await User.findById(req.user.id).select('-password');
+      const post = await Post.findById(req.params.id);
+      console.log('user ', user);
+      const comment = {
+        user: req.user.id,
+        name: user.name,
+        text: req.body.text,
+        avatar: user.avatar,
+      };
+      post.comments.unshift(comment);
+
+      await post.save();
+      res.json(post.comments);
+    } catch (err) {
+      console.log(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
+// @ROUTER put api/post/comment-remove/:id
+// @DESC  add a comment
+// @Access private
+
+router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    const comment = post.comments.find(
+      (comment) => comment.id === req.params.comment_id
+    );
+    console.log(comment);
+
+    if (!comment) {
+      return res.status(400).send('Comment does not exist');
+
+      //we want that , post owner can delete any comment , and the others can delete only there comments
+    } else if (
+
+      comment.user.toString() !== req.user.id
+    ) {
+      return res.status(400).send('You can not delete others comments');
+    }
+    const removeIndex = post.comments
+      .map((comment) => comment.id)
+      .indexOf(req.params.comment_id);
+    post.comments.splice(removeIndex, 1);
+    await post.save();
+    res.json(post.comments);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 module.exports = router;
