@@ -188,10 +188,7 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
       return res.status(400).send('Comment does not exist');
 
       //we want that , post owner can delete any comment , and the others can delete only there comments
-    } else if (
-
-      comment.user.toString() !== req.user.id
-    ) {
+    } else if (comment.user.toString() !== req.user.id) {
       return res.status(400).send('You can not delete others comments');
     }
     const removeIndex = post.comments
