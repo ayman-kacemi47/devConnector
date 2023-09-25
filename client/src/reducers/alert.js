@@ -9,7 +9,7 @@ const initialState = [
     }
      */
 ];
-export default function (state = initialState, action) {
+export default function alertReducer(state = initialState, action) {
   const { type, payload } = action; // to avoid action.type & action.payload
   switch (type) {
     case SET_ALERT:

@@ -7,7 +7,7 @@ const initialState = {
   user: null,
 };
 
-export default function (state = initialState, action) {
+export default function authReducer(state = initialState, action) {
   const { type, paylaod } = action;
   switch (type) {
     case REGISTER_SUCCESS:
