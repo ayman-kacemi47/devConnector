@@ -15,7 +15,7 @@ const App = () => (
     <Router>
       <Fragment>
         <Navbar />
-        <Alert style={{ marginTop: '50px' }} />
+        <Alert />
         <Routes>
           <Route exact path='/' element={<Landing />} />
           <Route exact path='/register' element={<Register />}></Route>
