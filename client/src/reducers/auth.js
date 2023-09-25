@@ -8,11 +8,11 @@ const initialState = {
 };
 
 export default function authReducer(state = initialState, action) {
-  const { type, paylaod } = action;
+  const { type, payload } = action;
   switch (type) {
     case REGISTER_SUCCESS:
-      localStorage.setItem('token', paylaod.token);
-      return { ...state, ...paylaod, isAuthenticated: true, loading: false };
+      localStorage.setItem('token', payload.token);
+      return { ...state, ...payload, isAuthenticated: true, loading: false };
     case REGISTER_FAIL:
       localStorage.removeItem('token'); // if registration failed , remove the token from the localstorage
       return {
