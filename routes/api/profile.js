@@ -9,6 +9,7 @@ const {
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const Post = require('../../models/Post');
 
 const request = require('request');
 const config = require('config');
@@ -151,8 +152,13 @@ router.get('/user/:user_id', async (req, res) => {
 
 router.delete('/', auth, async (req, res) => {
   try {
-    //TODO  Delete also the posts
+    //REMOVE USER POSTS
+    await Post.deleteMany({ user: req.user.id });
+
+    //REMOVE PROFILE
     await Profile.findOneAndDelete({ user: req.user.id });
+
+    // REMOVE USER
     await User.findOneAndDelete({ _id: req.user.id });
     res.json({ msg: 'Profile deleted' });
   } catch (err) {

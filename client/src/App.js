@@ -12,6 +12,14 @@ import store from './store';
 
 import { loadUser } from '../src/actions/auth';
 import setAuthToken from './utils/setAuthToken';
+import Dashboard from './components/Dashboard/Dashboard';
+import CreateProfile from './components/profile-forms/CreateProfile';
+import EditProfile from './components/profile-forms/EditProfile';
+import AddExperience from './components/profile-forms/AddExperience';
+
+import PrivateRoute from './components/routing/PrivateRoute'; //use it instead of route from react-rout when you want to be connected to visit an page
+import AddEducation from './components/profile-forms/AddEducation';
+import Profiles from './components/profiles/Profiles';
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -32,6 +40,27 @@ const App = () => {
             <Route exact path='/' element={<Landing />} />
             <Route exact path='/register' element={<Register />}></Route>
             <Route exact path='/login' element={<Login />}></Route>
+            <Route exact path='/profiles' element={<Profiles />}></Route>
+            <Route
+              path='/dashboard'
+              element={<PrivateRoute component={Dashboard} />}
+            />
+            <Route
+              path='/create-profile'
+              element={<PrivateRoute component={CreateProfile} />}
+            />
+            <Route
+              path='/edit-profile'
+              element={<PrivateRoute component={EditProfile} />}
+            />
+            <Route
+              path='/add-experience'
+              element={<PrivateRoute component={AddExperience} />}
+            />
+            <Route
+              path='/add-education'
+              element={<PrivateRoute component={AddEducation} />}
+            />
           </Routes>
         </Fragment>
       </Router>
