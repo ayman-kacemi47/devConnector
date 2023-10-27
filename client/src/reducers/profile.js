@@ -10,7 +10,7 @@ import {
 const initialState = {
   profile: null, //my profile
   profiles: [], // data of other profile we will visit
-  repo: [],
+  repos: [],
   loading: true,
   error: {},
 };
@@ -32,7 +32,7 @@ export default function profileReducer(state = initialState, action) {
     case GET_REPOS:
       return {
         ...state,
-        repo: payload,
+        repos: payload,
         loading: false,
       };
     case PROFILE_ERROR:
@@ -40,13 +40,14 @@ export default function profileReducer(state = initialState, action) {
         ...state,
         error: payload,
         loading: false,
+        profile: null, // to fix bug new registerd user can edit the the devloper he browse
       };
 
     case CLEAR_PROFILE:
       return {
         ...state,
         profile: null,
-        repo: [],
+        repos: [],
         loading: false,
       };
 
