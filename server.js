@@ -9,7 +9,7 @@ connectDB();
 //Init middleware
 app.use(express.json({ extended: false })); // this should allow us to use req.body  , mohema
 
-//app.get('/' , (req, res) => res.send('API Running'));   deleted for deploying
+//app.get('/', (req, res) => res.send('API Running'));  deleted for deploying maybe just for heroku
 
 //Define routes
 app.use('/api/users', require('./routes/api/users'));
