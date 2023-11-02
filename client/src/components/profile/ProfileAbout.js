@@ -22,7 +22,7 @@ const ProfileAbout = ({
       <div className='skills'>
         {skills.map((skill, index) => (
           <div key={index} className='p-1'>
-            <i class='fa fa-check' aria-hidden='true'></i> {skill}
+            <i className='fa fa-check' aria-hidden='true'></i> {skill}
           </div>
         ))}
       </div>

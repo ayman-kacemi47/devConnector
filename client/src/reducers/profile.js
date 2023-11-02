@@ -5,6 +5,7 @@ import {
   GET_REPOS,
   PROFILE_ERROR,
   UPDATE_PROFILE,
+  LOGOUT,
 } from '../actions/types';
 
 const initialState = {
@@ -40,7 +41,7 @@ export default function profileReducer(state = initialState, action) {
         ...state,
         error: payload,
         loading: false,
-        profile: null, // to fix bug new registerd user can edit the the devloper he browse
+        //  profile: null, // to fix bug new registerd will had profile data as user logged before .  but this solution will make another problem when profile_error called so it will show the spinner
       };
 
     case CLEAR_PROFILE:
@@ -49,6 +50,11 @@ export default function profileReducer(state = initialState, action) {
         profile: null,
         repos: [],
         loading: false,
+      };
+    case LOGOUT: 
+      return {
+        ...state,
+        profile: null, 
       };
 
     default:

@@ -27,13 +27,13 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       </li>
       <li>
         <Link to='/dashboard'>
-          <i class='fa fa-user' aria-hidden='true'></i>{' '}
+          <i className='fa fa-user' aria-hidden='true'></i>{' '}
           <span className='hide-sm'>Dashboard</span>
         </Link>
       </li>
       <li>
         <Link to='#!' onClick={logout}>
-          <i class='fa fa-sign-out' aria-hidden='true'></i>{' '}
+          <i className='fa fa-sign-out' aria-hidden='true'></i>{' '}
           <span className='hide-sm'>Logout</span>
         </Link>
       </li>
@@ -57,8 +57,8 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 };
 
 Navbar.propTypes = {
-  mapStateToProps: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  logout: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

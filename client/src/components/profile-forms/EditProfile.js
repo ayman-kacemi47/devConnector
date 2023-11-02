@@ -68,8 +68,9 @@ const EditProfile = ({
   };
   const onSubmit = (e) => {
     e.preventDefault();
-    //  const editing = profile ? true : false;
-    createProfile(formData, history, true).then(() => {
+    const editing = profile ? true : false;
+    console.log('formdata ', formData);
+    createProfile(formData, history, editing).then(() => {
       navigate('/dashboard');
     });
   };

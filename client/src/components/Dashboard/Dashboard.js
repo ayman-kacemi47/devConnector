@@ -24,7 +24,7 @@ const Dashboard = ({
     <section className='container'>
       <h1 className='large text-primary'> Dashboard</h1>
       <p className='lead'>
-        <i class='fa fa-user' aria-hidden='true'></i> Welcome{' '}
+        <i className='fa fa-user' aria-hidden='true'></i> Welcome{' '}
         {user && user.name}
       </p>
       {profile !== null ? (
